@@ -16,17 +16,8 @@ const INGRDIENTS_NAMES = {
 };
 class BurgerBuilder extends Component {
   state = {
-    ingredients: {
-      salad: 0,
-      becon: 0,
-      cheese: 0,
-      meat: 0,
-    },
-    totalPrice: 0,
     purchasing: false,
     confirmOrder: false,
-    lastCustomerName: "N/A",
-    loading: false,
   };
   showConfirmModal = () => {
     this.setState({ confirmOrder: true });
@@ -37,7 +28,7 @@ class BurgerBuilder extends Component {
   ortsNemeh = (type) => {
     const NewIngredients = { ...this.props.burgeriinOrts };
     NewIngredients[type]++;
-    const NewPrice = this.state.totalPrice + INGRDIENTS_PRICE[type];
+    const NewPrice = this.props.niitUne + INGRDIENTS_PRICE[type];
     this.setState({
       purchasing: NewPrice > 0,
       ingredients: NewIngredients,
@@ -47,7 +38,7 @@ class BurgerBuilder extends Component {
   ortsHasah = (type) => {
     const NewIngredients = { ...this.props.burgeriinOrts };
     NewIngredients[type]--;
-    const NewPrice = this.state.totalPrice - INGRDIENTS_PRICE[type];
+    const NewPrice = this.props.niitUne - INGRDIENTS_PRICE[type];
     this.setState({
       purchasing: NewPrice > 0,
       ingredients: NewIngredients,
@@ -61,7 +52,7 @@ class BurgerBuilder extends Component {
     for (let orts in this.props.burgeriinOrts) {
       params.push(orts + "=" + this.props.burgeriinOrts[orts]);
     }
-    params.push("dun=" + this.state.totalPrice);
+    params.push("dun=" + this.props.niitUne);
 
     this.props.history.push({
       pathname: "/ship",
@@ -71,14 +62,11 @@ class BurgerBuilder extends Component {
   };
 
   render() {
-    console.log(this.props);
     const disabledIngrdients = { ...this.props.burgeriinOrts };
 
     for (let key in disabledIngrdients) {
       disabledIngrdients[key] = disabledIngrdients[key] <= 0;
     }
-
-    console.log("hey", this.props);
 
     return (
       <div>
@@ -90,7 +78,7 @@ class BurgerBuilder extends Component {
             <Spinner />
           ) : (
             <OrderSummary
-              price={this.state.totalPrice}
+              price={this.props.niitUne}
               onCancel={this.closeConfirmModal}
               onContinue={this.continueOrder}
               ingredientsNames={INGRDIENTS_NAMES}
@@ -104,10 +92,10 @@ class BurgerBuilder extends Component {
           closeConfirmModal={this.closeConfirmModal}
           ingredientsNames={INGRDIENTS_NAMES}
           disabled={!this.state.purchasing}
-          price={this.state.totalPrice}
+          price={this.props.niitUne}
           disabledIngrdients={disabledIngrdients}
-          ortsNemeh={this.ortsNemeh}
-          ortsHasah={this.ortsHasah}
+          ortsNemeh={this.props.burgeriinOrtsNem}
+          ortsHasah={this.props.burgereesOrtsHas}
         />
       </div>
     );
@@ -125,8 +113,10 @@ const a = (state) => {
 
 const b = (dispatch) => {
   return {
-    ortsNem: (ortsNer) => dispatch({ type: "ADD_INGREDIENT" }),
-    ortsHas: (ortsNer) => dispatch({ type: "REMOVE_INGREDIENT" }),
+    burgeriinOrtsNem: (ortsNer) =>
+      dispatch({ type: "ADD_INGREDIENT", nemehOrts: ortsNer }),
+    burgereesOrtsHas: (ortsNer) =>
+      dispatch({ type: "REMOVE_INGREDIENT", hasahOrts: ortsNer }),
   };
 };
 

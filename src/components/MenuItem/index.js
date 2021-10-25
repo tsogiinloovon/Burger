@@ -1,11 +1,11 @@
 import React from "react";
 import css from "./style.module.css";
 import { NavLink } from "react-router-dom";
-const MenuItem = (probs) => {
+const MenuItem = (props) => {
   return (
     <li className={css.MenuItem}>
-      <NavLink exact={probs.exact} activeClassName={css.active} to={probs.link}>
-        {probs.children}
+      <NavLink exact={props.exact} activeClassName={css.active} to={props.link}>
+        {props.children}
       </NavLink>
     </li>
   );

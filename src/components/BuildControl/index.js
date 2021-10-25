@@ -1,28 +1,26 @@
 import React from "react";
 import css from "./style.module.css";
-const BuildControl = (probs) => {
-  return(
-  <div className={css.BuildControl}>
-    <div  className={css.Label}>
-      {probs.orts}
+const BuildControl = (props) => {
+  return (
+    <div className={css.BuildControl}>
+      <div className={css.Label}>{props.orts}</div>
+      <button
+        onClick={() => {
+          props.ortsNemeh(props.type);
+        }}
+        className={css.More}
+      >
+        нэмэх
+      </button>
+      <button
+        disabled={props.disabled[props.type]}
+        onClick={() => props.ortsHasah(props.type)}
+        className={css.Less}
+      >
+        хасах
+      </button>
     </div>
-    <button
-      onClick={() => {
-        probs.ortsNemeh(probs.type);
-      }}
-      className={css.More}
-    >
-      нэмэх
-    </button>
-    <button
-      disabled={probs.disabled[probs.type]}
-      onClick={() => probs.ortsHasah(probs.type)}
-      className={css.Less}
-    >
-      хасах
-    </button>
-  </div>
-  )
+  );
 };
 
 export default BuildControl;

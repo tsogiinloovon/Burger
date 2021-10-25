@@ -1,6 +1,13 @@
-import React from 'react';
-import css from './style.module.css';
+import React from "react";
+import css from "./style.module.css";
 
-const Button = (probs) => <button onClick={probs.daragdsan} className={`${css.Button} ${css[probs.btnType]}`}>{probs.text}</button>
+const Button = (props) => (
+  <button
+    onClick={props.daragdsan}
+    className={`${css.Button} ${css[props.btnType]}`}
+  >
+    {props.text}
+  </button>
+);
 
 export default Button;

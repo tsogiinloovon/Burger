@@ -6,9 +6,9 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-import reducer from "./redux/reducer/burgerReducer";
+import burgerReducer from "./redux/reducer/burgerReducer";
 
-const store = createStore(reducer);
+const store = createStore(burgerReducer);
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>

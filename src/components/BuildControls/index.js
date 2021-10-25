@@ -2,25 +2,30 @@ import React from "react";
 import BuildControl from "../BuildControl";
 import css from "./style.module.css";
 
-const BuildControls = (probs) => {
-  
+const BuildControls = (props) => {
   return (
     <div className={css.BuildControls}>
-      <p>бүргерийн үнэ:{probs.price}</p>
+      <p>бүргерийн үнэ:{props.price}</p>
 
-      {Object.keys(probs.ingredientsNames).map((el) => {
+      {Object.keys(props.ingredientsNames).map((el) => {
         return (
           <BuildControl
             key={el}
-            disabled={probs.disabledIngrdients}
-            ortsNemeh={probs.ortsNemeh}
-            ortsHasah={probs.ortsHasah}
+            disabled={props.disabledIngrdients}
+            ortsNemeh={props.ortsNemeh}
+            ortsHasah={props.ortsHasah}
             type={el}
-            orts={probs.ingredientsNames[el]}
+            orts={props.ingredientsNames[el]}
           />
         );
       })}
-      <button onClick = {probs.showConfirmModal} disabled = {probs.disabled}className={css.OrderButton}>Захиалах</button>
+      <button
+        onClick={props.showConfirmModal}
+        disabled={props.disabled}
+        className={css.OrderButton}
+      >
+        Захиалах
+      </button>
     </div>
   );
 };

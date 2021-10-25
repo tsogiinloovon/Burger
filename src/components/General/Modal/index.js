@@ -1,18 +1,18 @@
 import React from "react";
 import Shadow from "../Shadow";
 import css from "./style.module.css";
-const Modal = (probs) => {
+const Modal = (props) => {
   return (
     <div>
-      <Shadow show={probs.show} darahad={probs.closeConfirmModal} />
+      <Shadow show={props.show} darahad={props.closeConfirmModal} />
       <div
         style={{
-          transform: probs.show ? "translateY(0)" : "translateY(-100vh)",
-          opacity: probs.show ? "1" : "0",
+          transform: props.show ? "translateY(0)" : "translateY(-100vh)",
+          opacity: props.show ? "1" : "0",
         }}
         className={css.Modal}
       >
-        {probs.children}
+        {props.children}
       </div>
     </div>
   );
