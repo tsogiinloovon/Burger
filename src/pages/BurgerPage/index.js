@@ -7,7 +7,8 @@ import OrderSummary from "../../components/OrderSummery";
 import Spinner from "../../components/General/Spinner";
 import { connect } from "react-redux"; //high order component dont return jsx ... , only add extra chance to that component
 
-const INGRDIENTS_PRICE = { salad: 150, cheese: 250, becon: 800, meat: 1500 };
+import * as actions from "../../redux/actions/burgerActions";
+
 const INGRDIENTS_NAMES = {
   becon: "Гахайн мах",
   cheese: "Бяслага",
@@ -16,7 +17,6 @@ const INGRDIENTS_NAMES = {
 };
 class BurgerBuilder extends Component {
   state = {
-    purchasing: false,
     confirmOrder: false,
   };
   showConfirmModal = () => {
@@ -24,26 +24,6 @@ class BurgerBuilder extends Component {
   };
   closeConfirmModal = () => {
     this.setState({ confirmOrder: false });
-  };
-  ortsNemeh = (type) => {
-    const NewIngredients = { ...this.props.burgeriinOrts };
-    NewIngredients[type]++;
-    const NewPrice = this.props.niitUne + INGRDIENTS_PRICE[type];
-    this.setState({
-      purchasing: NewPrice > 0,
-      ingredients: NewIngredients,
-      totalPrice: NewPrice,
-    });
-  };
-  ortsHasah = (type) => {
-    const NewIngredients = { ...this.props.burgeriinOrts };
-    NewIngredients[type]--;
-    const NewPrice = this.props.niitUne - INGRDIENTS_PRICE[type];
-    this.setState({
-      purchasing: NewPrice > 0,
-      ingredients: NewIngredients,
-      totalPrice: NewPrice,
-    });
   };
 
   continueOrder = () => {
@@ -64,6 +44,7 @@ class BurgerBuilder extends Component {
   render() {
     const disabledIngrdients = { ...this.props.burgeriinOrts };
 
+    console.log("disabledIngrdients", disabledIngrdients);
     for (let key in disabledIngrdients) {
       disabledIngrdients[key] = disabledIngrdients[key] <= 0;
     }
@@ -91,7 +72,7 @@ class BurgerBuilder extends Component {
           showConfirmModal={this.showConfirmModal}
           closeConfirmModal={this.closeConfirmModal}
           ingredientsNames={INGRDIENTS_NAMES}
-          disabled={!this.state.purchasing}
+          disabled={!this.props.purchasing}
           price={this.props.niitUne}
           disabledIngrdients={disabledIngrdients}
           ortsNemeh={this.props.burgeriinOrtsNem}
@@ -103,21 +84,19 @@ class BurgerBuilder extends Component {
 }
 
 // configuration redux
-
-const a = (state) => {
+const mapStateToProps = (state) => {
   return {
     burgeriinOrts: state.ingredients,
     niitUne: state.totalPrice,
+    purchasing: state.purchasing,
   };
 };
 
-const b = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    burgeriinOrtsNem: (ortsNer) =>
-      dispatch({ type: "ADD_INGREDIENT", nemehOrts: ortsNer }),
-    burgereesOrtsHas: (ortsNer) =>
-      dispatch({ type: "REMOVE_INGREDIENT", hasahOrts: ortsNer }),
+    burgeriinOrtsNem: (ortsNer) => dispatch(actions.addIngrdients(ortsNer)),
+    burgereesOrtsHas: (ortsNer) => dispatch(actions.removeIngrdients(ortsNer)),
   };
 };
 
-export default connect(a, b)(BurgerBuilder);
+export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder);
